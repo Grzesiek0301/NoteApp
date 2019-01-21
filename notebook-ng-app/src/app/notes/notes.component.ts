@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Notebook} from "./model/notebook";
+import {ApiService} from "../service/api.service";
 
 @Component({
   selector: 'app-notes',
@@ -11,15 +12,14 @@ export class NotesComponent implements OnInit {
 
   notebooks: Notebook[];
 
-  constructor(private http:HttpClient) { }
+  constructor(private apiService:ApiService) { }
 
   ngOnInit() {
     this.getAllNotebooks();
   }
 
   public getAllNotebooks(){
-    let url = "http://localhost:8080//api/notebooks/all";
-    this.http.get<Notebook[]>(url).subscribe(
+   this.apiService.getAllNotebooks().subscribe(
       res => {
         this.notebooks= res;
       },
