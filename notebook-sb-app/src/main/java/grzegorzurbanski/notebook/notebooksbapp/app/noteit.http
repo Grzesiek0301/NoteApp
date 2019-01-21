@@ -17,3 +17,6 @@ Content-Type: application/json
   "feedback": "Your app is so cool"
 }
 ###
+GET http://localhost:8080/api/notebooks/all
+
+###
