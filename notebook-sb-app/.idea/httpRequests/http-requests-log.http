@@ -1,3 +1,49 @@
+POST http://localhost:8080/api/notebooks
+Content-Type: application/json
+
+{
+  "name": "Karamakekeke3"
+}
+
+<> 2019-01-21T044908.200.json
+
+###
+
+POST http://localhost:8080/api/notebooks
+Content-Type: application/json
+
+{
+  "name": "Karamakekeke"
+}
+
+<> 2019-01-21T044817.200.json
+
+###
+
+POST http://localhost:8080/api/notebooks
+Content-Type: application/json
+
+{
+  "name": "Karamakekeke"
+
+}
+
+<> 2019-01-21T044044.200.json
+
+###
+
+POST http://localhost:8080/api/notebooks
+Content-Type: application/json
+
+{
+  "name": "Karamakekeke",
+
+}
+
+<> 2019-01-21T043849.400.json
+
+###
+
 GET http://localhost:8080/api/notebooks/all
 
 <> 2019-01-21T012206.200.json

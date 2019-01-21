@@ -8,7 +8,7 @@ private String id;
 
 private String name;
 
-private int nbNotes;
+private int nbOfNotes;
 
 
     public String getId() {
@@ -18,7 +18,7 @@ private int nbNotes;
     public void setId(String id) {
         this.id = id;
     }
-    @NotNull
+
     public String getName() {
         return name;
     }
@@ -27,11 +27,11 @@ private int nbNotes;
         this.name = name;
     }
 
-    public int getNbNotes() {
-        return nbNotes;
+    public int getNbOfNotes() {
+        return nbOfNotes;
     }
 
-    public void setNbNotes(int nbNotes) {
-        this.nbNotes = nbNotes;
+    public void setNbOfNotes(int nbOfNotes) {
+        this.nbOfNotes = nbOfNotes;
     }
 }

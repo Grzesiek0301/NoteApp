@@ -1,12 +1,12 @@
 package grzegorzurbanski.notebook.notebooksbapp.app;
 
+import grzegorzurbanski.notebook.notebooksbapp.app.viewmodel.NotebookViewModel;
 import grzegorzurbanski.notebook.notebooksbapp.db.NotebookRepository;
 import grzegorzurbanski.notebook.notebooksbapp.model.Notebook;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
@@ -15,9 +15,12 @@ import java.util.List;
 public class NotebookController {
 
     private NotebookRepository notebookRepository;
+    private  Mapper mapper;
 
-    public NotebookController(NotebookRepository notebookRepository){
+
+    public NotebookController(NotebookRepository notebookRepository, Mapper mapper){
         this.notebookRepository = notebookRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping("/all")
@@ -25,4 +28,15 @@ public class NotebookController {
         return  this.notebookRepository.findAll();
     }
 
+
+    @PostMapping
+    public Notebook save(@RequestBody NotebookViewModel notebookViewModel, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new ValidationException();
+        }
+
+        Notebook notebook = mapper.convertNotebookViewModelToNotebookEntity(notebookViewModel);
+        this.notebookRepository.save(notebook);
+        return notebook;
+    }
 }
