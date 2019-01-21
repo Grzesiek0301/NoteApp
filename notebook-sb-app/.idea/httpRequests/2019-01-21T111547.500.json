@@ -1,0 +1,7 @@
+{
+  "timestamp": "2019-01-21T10:15:47.219+0000",
+  "status": 500,
+  "error": "Internal Server Error",
+  "message": "Failed messages: javax.mail.SendFailedException: Invalid Addresses;\n  nested exception is:\n\tcom.sun.mail.smtp.SMTPAddressFailedException: 554 5.7.1 <grzesiiek@op.pl>: Recipient address rejected: <hatoform@op.pl> is not authorized to send messages from <haatoform@op.pl>\n",
+  "path": "/api/feedback"
+}

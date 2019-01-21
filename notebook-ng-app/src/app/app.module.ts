@@ -8,6 +8,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { NotesComponent } from './notes/notes.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {Router, RouterModule, Routes, UrlMatcher} from '@angular/router';
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule } from "@angular/common/http";
 
 const appRoutes :Routes = [
   {
@@ -39,7 +41,9 @@ const appRoutes :Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     RouterModule.forRoot(appRoutes, {enableTracing:true})
   ],
   providers: [],
