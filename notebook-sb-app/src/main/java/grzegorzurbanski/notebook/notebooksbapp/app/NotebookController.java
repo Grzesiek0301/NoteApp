@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ValidationException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/notebooks")
@@ -38,5 +39,10 @@ public class NotebookController {
         Notebook notebook = mapper.convertNotebookViewModelToNotebookEntity(notebookViewModel);
         this.notebookRepository.save(notebook);
         return notebook;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id){
+        this.notebookRepository.deleteById(UUID.fromString(id));
     }
 }

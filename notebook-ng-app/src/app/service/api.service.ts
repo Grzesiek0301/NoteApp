@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Notebook} from "../notes/model/notebook";
 import {Observable} from "rxjs";
 import {FeedbackViewModel} from "../feedback/feedback.component";
+import {Note} from "../notes/model/note";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ export class ApiService {
   private ALL_NOTEBOOKS_URL = this.BASE_URL+'\\notebooks\\all';
   private SEND_FEEDBACK_URL = this.BASE_URL+'\\feedback';
   private SAVE_UPDATE_NOTEBOOK = this.BASE_URL+'\\notebooks';
+  private DELETE_NOTEBOOK = this.BASE_URL+'\\notebooks\\';
+  private ALL_NOTES_URL = this.BASE_URL+'\\notes\\all';
+  private NOTES_BY_NOTEBOOK_ID = this.BASE_URL+'\\notes\\byNotebookId\\';
 
   constructor(private http:HttpClient) { }
 
@@ -26,5 +30,17 @@ export class ApiService {
 
   postNotebook(notebook: Notebook): Observable<Notebook>{
     return this.http.post<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
+  }
+
+  deleteNotebook(notebookId: string): Observable<any>{
+    return this.http.delete(this.DELETE_NOTEBOOK+notebookId);
+  }
+
+  getAllNotes(): Observable<Note[]>{
+    return this.http.get<Note[]>(this.ALL_NOTES_URL);
+  }
+
+  getNotesByNotebookId(notebookId: string): Observable<Note[]>{
+    return this.http.get<Note[]>(this.NOTES_BY_NOTEBOOK_ID +notebookId);
   }
 }

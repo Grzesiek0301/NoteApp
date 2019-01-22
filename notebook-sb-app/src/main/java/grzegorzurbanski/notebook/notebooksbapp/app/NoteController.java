@@ -1,35 +1,59 @@
 package grzegorzurbanski.notebook.notebooksbapp.app;
 
 
+import grzegorzurbanski.notebook.notebooksbapp.app.viewmodel.NoteViewModel;
+import grzegorzurbanski.notebook.notebooksbapp.db.NoteRepository;
 import grzegorzurbanski.notebook.notebooksbapp.db.NotebookRepository;
+import grzegorzurbanski.notebook.notebooksbapp.model.Note;
 import grzegorzurbanski.notebook.notebooksbapp.model.Notebook;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/note")
+@RequestMapping("/api/notes")
 @CrossOrigin
 public class NoteController {
 
+    private NoteRepository noteRepository;
     private NotebookRepository notebookRepository;
+    private Mapper mapper;
 
 
-    public NoteController(NotebookRepository notebookRepository){
+    public NoteController(NoteRepository noteRepository, Mapper mapper, NotebookRepository notebookRepository){
+        this.noteRepository = noteRepository;
+        this.mapper = mapper;
         this.notebookRepository = notebookRepository;
 
     }
 
     @GetMapping("/all")
-    public List<Notebook> notebooks(){
-        return  this.notebookRepository.findAll();
+    public List<NoteViewModel> notes(){
+
+        List<Note> notes = this.noteRepository.findAll();
+
+        List<NoteViewModel> notesViewModel = notes.stream().map(note -> this.mapper.convertToNoteViewModel(note)).collect(Collectors.toList());
+
+        return  notesViewModel;
     }
 
-    @GetMapping("/{id}")
-    public Optional<Notebook> getNotebookById(@PathVariable String id){
-        return this.notebookRepository.findById(UUID.fromString(id));
+    @GetMapping("byNotebookId/{id}")
+    public List<NoteViewModel> notesByNotebookId(@PathVariable String id){
+        List<Note> notes = new ArrayList<Note>();
+        Optional<Notebook> byId = this.notebookRepository.findById(UUID.fromString(id));
+
+      if(byId.isPresent()){
+          notes = this.noteRepository.findAllByNotebook(byId.get());
+      }
+
+      List<NoteViewModel> notesViewModel = notes.stream().map(note -> this.mapper.convertToNoteViewModel(note)).collect(Collectors.toList());
+
+        return notesViewModel;
     }
+
 
 }
