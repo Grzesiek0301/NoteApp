@@ -17,6 +17,9 @@ export class ApiService {
   private DELETE_NOTEBOOK = this.BASE_URL+'\\notebooks\\';
   private ALL_NOTES_URL = this.BASE_URL+'\\notes\\all';
   private NOTES_BY_NOTEBOOK_ID = this.BASE_URL+'\\notes\\byNotebookId\\';
+  private UPDATE_NOTE_BY_ID=this.BASE_URL+'\\notes';
+  private DELETE_NOTE=this.BASE_URL+'\\notes\\';
+
 
   constructor(private http:HttpClient) { }
 
@@ -43,4 +46,14 @@ export class ApiService {
   getNotesByNotebookId(notebookId: string): Observable<Note[]>{
     return this.http.get<Note[]>(this.NOTES_BY_NOTEBOOK_ID +notebookId);
   }
+
+  updateNote(updatedNote: Note): Observable<Note> {
+    return this.http.post<Note>(this.UPDATE_NOTE_BY_ID, updatedNote);
+  }
+
+  deleteNote(note: Note): Observable<any>{
+    return this.http.delete(this.DELETE_NOTE+note.id);
+  }
+
+
 }

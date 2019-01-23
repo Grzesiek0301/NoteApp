@@ -2,12 +2,21 @@ package grzegorzurbanski.notebook.notebooksbapp.app;
 
 import grzegorzurbanski.notebook.notebooksbapp.app.viewmodel.NoteViewModel;
 import grzegorzurbanski.notebook.notebooksbapp.app.viewmodel.NotebookViewModel;
+import grzegorzurbanski.notebook.notebooksbapp.db.NotebookRepository;
 import grzegorzurbanski.notebook.notebooksbapp.model.Note;
 import grzegorzurbanski.notebook.notebooksbapp.model.Notebook;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class Mapper {
+
+    private NotebookRepository notebookRepository;
+
+    public Mapper(NotebookRepository notebookRepository){
+        this.notebookRepository = notebookRepository;
+    }
 
 
     public Notebook convertNotebookViewModelToNotebookEntity(NotebookViewModel notebookViewModel){
@@ -25,4 +34,10 @@ public class Mapper {
         return viewModel;
     }
 
+    public Note convertNoteViewModelToNoteEntity(NoteViewModel noteViewModel) {
+
+        Notebook notebook = this.notebookRepository.findById(UUID.fromString(noteViewModel.getNotebookId())).get();
+        Note note = new Note(noteViewModel.getId(), noteViewModel.getTitle(), noteViewModel.getText(), notebook);
+    return note;
+    }
 }

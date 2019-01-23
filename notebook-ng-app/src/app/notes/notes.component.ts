@@ -13,6 +13,7 @@ export class NotesComponent implements OnInit {
 
   notebooks: Notebook[]=[];
   notes: Note[]=[];
+  currentNotebook: Notebook = null;
 
   constructor(private apiService:ApiService) { }
 
@@ -36,6 +37,7 @@ export class NotesComponent implements OnInit {
     this.apiService.getAllNotes().subscribe(
       res => {
         this.notes = res;
+        this.currentNotebook = null;
 
       },
       error => {
@@ -48,6 +50,7 @@ export class NotesComponent implements OnInit {
     this.apiService.getNotesByNotebookId(notebook.id).subscribe(
       res => {
         this.notes = res;
+        this.currentNotebook= notebook;
       },
       error => {
         alert("Error getNotesByNotebook ID");
@@ -65,6 +68,8 @@ export class NotesComponent implements OnInit {
       res=> {
         newNotebook.id = res.id;
         this.notebooks.push(newNotebook);
+        this.getNotesByNotebookId(newNotebook);
+        this.currentNotebook = newNotebook;
       },
       error => {
         alert("New notebook error ocured")
@@ -96,5 +101,49 @@ export class NotesComponent implements OnInit {
         }
       )
     }
+  }
+
+  updateNote(updatedNote: Note) {
+    this.apiService.updateNote(updatedNote).subscribe(
+      res=> {
+
+      },
+      error => {
+        alert("Update note error occured");
+      }
+    )
+  }
+
+  deleteNote(note: Note) {
+    if(confirm("Are you sure?")){
+      this.apiService.deleteNote(note).subscribe(
+        res => {
+          let indexOfNote = this.notes.indexOf(note);
+          this.notes.splice(indexOfNote, 1);
+        },
+        error =>{
+          alert("Error occured while delete note");
+        }
+      )
+    }
+  }
+
+  createNewNote(currentNotebook: Notebook) {
+
+    let note: Note ={
+      id:null,
+      title:"New Note Title",
+      text:"New note",
+      notebookId:currentNotebook.id,
+      lastModifiedOn: null
+    }
+    this.apiService.updateNote(note).subscribe(
+      res => {
+        this.notes.push(res);
+      },
+      error => {
+        alert("Error has occured while create new note");
+      }
+    )
   }
 }

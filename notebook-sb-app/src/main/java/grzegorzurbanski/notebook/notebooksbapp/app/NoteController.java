@@ -6,8 +6,10 @@ import grzegorzurbanski.notebook.notebooksbapp.db.NoteRepository;
 import grzegorzurbanski.notebook.notebooksbapp.db.NotebookRepository;
 import grzegorzurbanski.notebook.notebooksbapp.model.Note;
 import grzegorzurbanski.notebook.notebooksbapp.model.Notebook;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,5 +57,20 @@ public class NoteController {
         return notesViewModel;
     }
 
+    @PostMapping
+    public NoteViewModel updateNote(@RequestBody NoteViewModel noteViewModel, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new ValidationException();
+        }
 
+        Note note = this.mapper.convertNoteViewModelToNoteEntity(noteViewModel);
+        this.noteRepository.save(note);
+
+        return  noteViewModel;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteNote(@PathVariable String id){
+        this.noteRepository.deleteById(UUID.fromString(id));
+    }
 }

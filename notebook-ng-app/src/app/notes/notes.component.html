@@ -14,8 +14,8 @@
               class="btn btn-info pull-right"
               style="margin-left:12px;"><i class="fa fa-plus"></i> New notebook
       </button>
-      <button type="button"
-
+      <button type="button" [disabled]="currentNotebook == null"
+              (click)="createNewNote(currentNotebook)"
               class="btn btn-warning pull-right"
               style="margin-left:12px;"><i class="fa fa-plus"></i> New note
       </button>
@@ -48,6 +48,9 @@
       <div class="row">
         <div  class="col-md-12">
           <!-- Message if there are no notes -->
+
+          <h3 *ngIf="currentNotebook == null"> All notes</h3>
+          <h3 *ngIf="currentNotebook != null"> {{currentNotebook.name}}</h3>
           <p *ngIf="notes.length === 0">There is no to display</p>
         </div>
       </div>
@@ -59,11 +62,11 @@
               <!-- title -->
               <input type="text"
                      [(ngModel)]="note.title"
-                     (change)="updateNote()"
+                     (change)="updateNote(note)"
                      class="input-label-lg"
                      maxlength="18" style="width: 80%"
               />
-              <a (click)="deleteNote()" class="pull-right text-danger">
+              <a (click)="deleteNote(note)" class="pull-right text-danger">
                 <i class="fa fa-trash-o"></i>
               </a>
             </div>
@@ -71,7 +74,7 @@
             <textarea class="input-label"
                       style="width: 100%; resize: none;" rows="6"
                       [(ngModel)]="note.text"
-                      (change)="updateNote()"></textarea>
+                      (change)="updateNote(note)"></textarea>
             <strong class="text-info" style="font-size: small">{{note.lastModifiedOn | date:'dd-MM-yyy HH:mm'}}</strong>
           </div>
         </div>

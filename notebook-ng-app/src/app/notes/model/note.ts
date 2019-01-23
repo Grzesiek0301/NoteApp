@@ -2,7 +2,7 @@ export interface Note {
 
   id:string;
   title:string;
-  text:number;
+  text:string;
   notebookId: string;
   lastModifiedOn:string;
 }
