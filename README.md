@@ -1,1 +1,1 @@
-My first project in Angular
+My first project in Angular. 
